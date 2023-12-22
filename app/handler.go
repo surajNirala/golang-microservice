@@ -5,6 +5,8 @@ import (
 	"encoding/xml"
 	"fmt"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 type ApiResponse struct {
@@ -44,4 +46,11 @@ func customers(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Content-type", "application/json")
 		json.NewEncoder(w).Encode(res)
 	}
+}
+
+func getCustomer(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	cid := params["customer_id"]
+
+	fmt.Fprintln(w, cid)
 }

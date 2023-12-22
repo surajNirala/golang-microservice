@@ -1,6 +1,10 @@
 package app
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/gorilla/mux"
+)
 
 func Start() {
 
@@ -10,9 +14,12 @@ func Start() {
 
 	//CUstomer ROutes
 
-	mux := http.NewServeMux()
+	// router := http.NewServeMux()
+	router := mux.NewRouter()
+	router.HandleFunc("/greet", greet)
+	router.HandleFunc("/customers", customers)
+	// router.HandleFunc("/customers/{customer_id}", getCustomer)
+	router.HandleFunc("/customers/{customer_id:[0-9]+}", getCustomer) // accept only numeric
 
-	mux.HandleFunc("/greet", greet)
-	mux.HandleFunc("/customers", customers)
-	http.ListenAndServe(":4001", mux)
+	http.ListenAndServe(":4001", router)
 }
